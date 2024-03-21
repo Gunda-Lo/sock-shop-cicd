@@ -1,0 +1,12 @@
+- name: Configure Jenkins Server
+  hosts: all
+  become: true
+  tasks:
+    #Update package manager cache - for apt
+    - name: Update apt cache
+    ansible.builtin.apt:
+    update_cache: yes
+  when:
+    - ansible_pkg_mgr == 'apt'
+    - ansible_python.version.major == 2
+    

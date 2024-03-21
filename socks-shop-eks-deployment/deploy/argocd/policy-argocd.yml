@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sock-shop-policy
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: sock-shop
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: master
+    path: ./socks-shop-eks-deployment/deploy/kubernetes/manifests-policy
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

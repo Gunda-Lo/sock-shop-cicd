@@ -1,0 +1,21 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: sock-shop-logging
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kube-system
+  project: default
+  source:
+    repoURL: https://github.com/example/repo.git
+    targetRevision: master
+    path: ./socks-shop-eks-deployment/deploy/kubernetes/manifests-logging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

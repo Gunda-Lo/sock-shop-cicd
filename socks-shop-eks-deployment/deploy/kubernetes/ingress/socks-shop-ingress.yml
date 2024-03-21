@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: socks-shop-ingress
+  namespace: sock-shop
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"  # Redirect HTTP to HTTPS
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"  # Use Let's Encrypt for SSL certificates
+    kubernetes.io/ingress.class: "nginx"  # Specify the Ingress controller class
+  label:
+    app: socks-shop
+spec:
+  tls:
+    - hosts:
+        - segunagoro.com
+      secretName: tls-secret  # Name of the TLS secret
+  rules:
+    - host: segunagoro.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: front-end
+                port:
+                  number: 80
+          - path: /bar
+            pathType: Prefix
+            backend:
+              service:
+                name: service2
+                port:
+                  number: 80

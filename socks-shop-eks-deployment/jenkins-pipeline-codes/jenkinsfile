@@ -1,0 +1,283 @@
+pipeline {
+    agent any
+      environment {
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_DEFAULT_REGION = "us-east-1"
+    }
+    stages {
+        stage('Cleaning Workspace') {
+            steps {
+                cleanWs()
+            }
+        }
+        stage('Pull Image and Scan') {
+            steps {
+                script {
+                    def desiredTag1 = '0.4.8'
+                    def desiredTag2 = '0.3.5'
+                    def desiredTag3 = '0.3.12'
+                    def desiredTag4 = '0.4.7'
+                    def desiredTag5 = '0.4.3'
+                    def desiredTag6 = '0.3.1'
+                    def desiredTag7 = '0.4.8'
+                    def desiredTag8 = '0.4.7'
+
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/carts:${desiredTag1}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/carts:${desiredTag1} > trivy_scan_report.txt"
+
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/catalogue:${desiredTag2}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/catalogue:${desiredTag2} > trivy_scan_report1.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/front-end:${desiredTag3}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/front-end:${desiredTag3} > trivy_scan_report2.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/orders:${desiredTag4}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/orders:${desiredTag4} > trivy_scan_report3.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/payment:${desiredTag5}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/payment:${desiredTag5} > trivy_scan_report4.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/queue-master:${desiredTag6}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/queue-master:${desiredTag6} > trivy_scan_report5.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/shipping:${desiredTag7}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/shipping:${desiredTag7} > trivy_scan_report6.txt"
+                    
+                    // Pull the Docker image
+                    sh "docker pull weaveworks/demos/user:${desiredTag8}"
+                    
+                    // Scan the pulled Docker image with Trivy
+                    sh "trivy image weaveworks/demos/user:${desiredTag8} > trivy_scan_report7.txt"
+                    
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile1 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern1 = /image:\s+weaveworks\/demos\/carts:(\S+)/
+                    def match1 = deploymentFile1 =~ tagPattern1
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag1 = match1[0][1]
+                        if (actualTag1 != desiredTag1) {
+                            error "Tag mismatch: Expected tag ${desiredTag1}, but found ${actualTag1} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile2 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern2 = /image:\s+weaveworks\/demos\/catalogue:(\S+)/
+                    def match2 = deploymentFile2 =~ tagPattern2
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag2 = match2[0][1]
+                        if (actualTag2 != desiredTag2) {
+                            error "Tag mismatch: Expected tag ${desiredTag2}, but found ${actualTag2} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile3 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern3 = /image:\s+weaveworks\/demos\/front-end:(\S+)/
+                    def match3 = deploymentFile3 =~ tagPattern3
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag3 = match3[0][1]
+                        if (actualTag3 != desiredTag3) {
+                            error "Tag mismatch: Expected tag ${desiredTag3}, but found ${actualTag3} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile4 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern4 = /image:\s+weaveworks\/demos\/orders:(\S+)/
+                    def match4 = deploymentFile4 =~ tagPattern4
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag4 = match4[0][1]
+                        if (actualTag4 != desiredTag4) {
+                            error "Tag mismatch: Expected tag ${desiredTag4}, but found ${actualTag4} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile5 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern5 = /image:\s+weaveworks\/demos\/payment:(\S+)/
+                    def match5 = deploymentFile5 =~ tagPattern5
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag5 = match51[0][1]
+                        if (actualTag5 != desiredTag5) {
+                            error "Tag mismatch: Expected tag ${desiredTag5}, but found ${actualTag5} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile6 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern6 = /image:\s+weaveworks\/demos\/queue-master:(\S+)/
+                    def match6 = deploymentFile6 =~ tagPattern6
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag6 = match6[0][1]
+                        if (actualTag6 != desiredTag6) {
+                            error "Tag mismatch: Expected tag ${desiredTag6}, but found ${actualTag6} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile7 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern7 = /image:\s+weaveworks\/demos\/shipping:(\S+)/
+                    def match7 = deploymentFile7 =~ tagPattern7
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag7 = match7[0][1]
+                        if (actualTag7 != desiredTag7) {
+                            error "Tag mismatch: Expected tag ${desiredTag7}, but found ${actualTag7} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage('Checkout from Git') {
+            steps {
+                script {
+                    // Checkout the repository
+                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    
+                    // Read the deployment file and extract the tag
+                    def deploymentFile8 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def tagPattern8 = /image:\s+weaveworks\/demos\/users:(\S+)/
+                    def match8 = deploymentFile8 =~ tagPattern8
+                    
+                    // Confirm the tag
+                    if (match) {
+                        def actualTag8 = match8[0][1]
+                        if (actualTag8 != desiredTag8) {
+                            error "Tag mismatch: Expected tag ${desiredTag8}, but found ${actualTag8} in deployment file"
+                        }
+                    } else {
+                        error "Failed to find image tag in deployment file"
+                    }
+                }
+            }
+        }
+        stage ('Create EKS cluster'){
+            steps {
+                script {
+                    // Change into the terraform directory and run commands
+                    dir ('../terraform')
+                    sh "terraform init"
+                    sh "terraform apply --auto-approve"
+                }
+            }
+
+        }
+        stage ('Deploy to Eks'){
+            steps {
+                script {
+                    // Configure the terminal to run commands
+                    dir ()
+                    sh "aws eks update-kubeconfig --name sock-shop-eks-cluster"
+                }
+            }
+        }
+
+    }
+}
