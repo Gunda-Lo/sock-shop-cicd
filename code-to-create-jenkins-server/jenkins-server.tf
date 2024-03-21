@@ -1,5 +1,5 @@
 data "vault_generic_secret" "aws_creds" {
-  path = "secret/microservices-demo"
+  path = "secret/sock-shop"
 }
 
 
