@@ -22,10 +22,10 @@ pipeline {
 
                     // Define image names
                     def imageNames = [
-                        'weaveworks/demos/carts', 'weaveworks/demos/catalogue',
-                        'weaveworks/demos/front-end', 'weaveworks/demos/orders',
-                        'weaveworks/demos/payment', 'weaveworks/demos/queue-master',
-                        'weaveworks/demos/shipping', 'weaveworks/demos/user'
+                        'weaveworksdemos/carts', 'weaveworksdemos/catalogue',
+                        'weaveworksdemos/front-end', 'weaveworksdemos/orders',
+                        'weaveworksdemos/payment', 'weaveworksdemos/queue-master',
+                        'weaveworksdemos/shipping', 'weaveworksdemos/user'
                     ]
 
                     // Pull and scan each image
@@ -37,7 +37,7 @@ pipeline {
                         sh "docker pull ${imageName}:${desiredTag}"
                     
                         // Scan the pulled Docker image with Trivy
-                        sh "trivy image ${imageName}:${desiredTag} > trivy_scan_report_${imageName}_${desiredTag}.txt"
+                        sh "trivy image ${imageName}:${desiredTag} > trivyimage.txt"
                     }
                 }
             }
@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
+                    git branch: 'main', credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
 
                     // Define deployment file patterns and desired tags
                     def filePatterns = [
@@ -62,7 +62,7 @@ pipeline {
                             returnStdout: true,
                             script: "cat *-${appName}-dep.yaml"
                         ).trim()
-                        def tagPattern = /image:\s+weaveworks\/demos\/${appName}:(\S+)/
+                        def tagPattern = /image:\s+weaveworksdemos\/${appName}:(\S+)/
                         def match = deploymentFile =~ tagPattern
 
                         // Confirm the tag
