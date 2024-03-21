@@ -13,7 +13,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/Gunda-Lo/sock-shop-cicd.git
-    targetRevision: master
+    targetRevision: main 
     path: ./socks-shop-eks-deployment/deploy/kubernetes/manifests-alerting
   syncPolicy:
     automated:

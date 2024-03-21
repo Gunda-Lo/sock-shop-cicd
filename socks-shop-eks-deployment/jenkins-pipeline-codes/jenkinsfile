@@ -81,7 +81,7 @@ pipeline {
                     git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile1 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-carts-dep.yaml").trim()
                     def tagPattern1 = /image:\s+weaveworks\/demos\/carts:(\S+)/
                     def match1 = deploymentFile1 =~ tagPattern1
                     
@@ -101,10 +101,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile2 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-catalogue.-dep.yaml").trim()
                     def tagPattern2 = /image:\s+weaveworks\/demos\/catalogue:(\S+)/
                     def match2 = deploymentFile2 =~ tagPattern2
                     
@@ -124,10 +124,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile3 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-front-end-dep.yaml").trim()
                     def tagPattern3 = /image:\s+weaveworks\/demos\/front-end:(\S+)/
                     def match3 = deploymentFile3 =~ tagPattern3
                     
@@ -147,10 +147,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile4 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-orders-dep.yaml").trim()
                     def tagPattern4 = /image:\s+weaveworks\/demos\/orders:(\S+)/
                     def match4 = deploymentFile4 =~ tagPattern4
                     
@@ -170,10 +170,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile5 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-payment-dep.yaml").trim()
                     def tagPattern5 = /image:\s+weaveworks\/demos\/payment:(\S+)/
                     def match5 = deploymentFile5 =~ tagPattern5
                     
@@ -193,10 +193,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile6 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-queue-master-dep.yaml").trim()
                     def tagPattern6 = /image:\s+weaveworks\/demos\/queue-master:(\S+)/
                     def match6 = deploymentFile6 =~ tagPattern6
                     
@@ -216,10 +216,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile7 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-shipping-dep.yaml").trim()
                     def tagPattern7 = /image:\s+weaveworks\/demos\/shipping:(\S+)/
                     def match7 = deploymentFile7 =~ tagPattern7
                     
@@ -239,10 +239,10 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
-                    def deploymentFile8 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
+                    def deploymentFile = sh(returnStdout: true, script: "cat *-users-dep.yaml").trim()
                     def tagPattern8 = /image:\s+weaveworks\/demos\/users:(\S+)/
                     def match8 = deploymentFile8 =~ tagPattern8
                     
