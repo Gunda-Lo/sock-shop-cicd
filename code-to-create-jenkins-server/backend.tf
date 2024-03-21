@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "socks-shop-deploy-eks"
-    region         = var.region
+    region         = "us-east-1"
     key            =  "jenkins-server/terraform.tfstate"
     dynamodb_table = "Lock-Files"
     encrypt        = true
