@@ -78,7 +78,7 @@ pipeline {
             steps {
                 script {
                     // Checkout the repository
-                    git credentialsId: 'GITHUB', url: 'https://github.com/AmanPathak-DevOps/End-to-End-Kubernetes-Three-Tier-DevSecOps-Project.git'
+                    git credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
                     
                     // Read the deployment file and extract the tag
                     def deploymentFile1 = sh(returnStdout: true, script: 'cat path/to/deployment.yml')
