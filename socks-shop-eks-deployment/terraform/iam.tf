@@ -1,33 +1,33 @@
-resource "aws_iam_role" "eks_worker_role" {
-  name = "eks-worker-role"
+resource "aws_iam_role" "test_role" {
+  name = "test_role"
+
   assume_role_policy = jsonencode({
     Version   = "2012-10-17"
     Statement = [
       {
-        Effect    = "Allow"
+        Action   = "sts:AssumeRole"
+        Effect   = "Allow"
+        Sid      = ""
         Principal = {
-          Service = "eks.amazonaws.com"
+          Service = "ec2.amazonaws.com"
         }
-        Action    = "sts:AssumeRole"
       },
     ]
   })
 
   inline_policy {
-    name = "ExamplePolicy"
+    name = "test_policy"
     policy = jsonencode({
-      Version = "2012-10-17"
+      Version   = "2012-10-17"
       Statement = [
         {
-          Effect    = "Allow"
-          Action    = "s3:GetObject"
-          Resource  = "*"
+          Action   = [
+            "ec2:Describe*",
+          ]
+          Effect   = "Allow"
+          Resource = "*"
         },
       ]
     })
-  }
-
-  tags = {
-    Name = "eks-worker-role"
   }
 }
