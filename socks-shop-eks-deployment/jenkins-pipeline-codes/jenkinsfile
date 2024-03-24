@@ -5,6 +5,8 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "us-east-1"
+        GIT_USER_EMAIL = "segeboi@gmail.com"
+        GIT_USER_NAME = "Gunda-Lo"
     }
 
     stages {
@@ -46,19 +48,12 @@ pipeline {
             }
         }
 
-        stage('Checkout, Create Folder, and Push Changes') {
+        stage('Checkout, Code, and Push Changes') {
             steps {
                 script {
                     // Checkout the repository
                     git branch: 'main', credentialsId: 'GITHUB', url: 'https://github.com/Gunda-Lo/sock-shop-cicd.git'
 
-                    // Define deployment file patterns and desired tags
-                    def filePatterns = [
-                        'carts': '0.4.8', 'catalogue': '0.3.5', 'front-end': '0.3.12',
-                        'orders': '0.4.7', 'payment': '0.4.3', 'queue-master': '0.3.1',
-                        'shipping': '0.4.8', 'users': '0.4.7'
-                    ]
-                    
                     // Create desired images folder
                     sh 'mkdir -p socks-shop-eks-deployment/desired_images'
 
@@ -67,9 +62,11 @@ pipeline {
                         sh "echo 'weaveworksdemos/${appName}:${desiredTag}' > socks-shop-eks-deployment/desired_images/${appName}_image.txt"
                     }
 
-                    // Commit changes
+                    // Commit and push changes
                     sh '''
                         cd socks-shop-eks-deployment
+                        git config user.email "segeboi@gmail.com"
+                        git config user.name "Gunda-Lo"
                         git add desired_images
                         git commit -m "Update desired images"
                         git push origin main
