@@ -7,6 +7,7 @@ pipeline {
         AWS_DEFAULT_REGION = "us-east-1"
         GIT_USER_EMAIL = "segeboi@gmail.com"
         GIT_USER_NAME = "Gunda-Lo"
+        GIT_REPO_NAME = "sock-shop-cicd"
     }
 
     stages {
@@ -69,7 +70,7 @@ pipeline {
                         git config user.name "Gunda-Lo"
                         git add desired_images
                         git commit -m "Update desired images"
-                        git push origin main
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                     '''
                 }
             }
