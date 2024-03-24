@@ -1,9 +1,9 @@
 data "aws_availability_zones" "azs" {}
 
-module "jenkins-server-vpc" {
+module "eks-vpc" {
   source = "terraform-aws-modules/vpc/aws"
   version = "5.5.3"
-  name = "jenkins-server-vpc"
+  name = "eks-vpc"
   cidr = var.vpc_cidr_block
   private_subnets = var.private_subnets_cidr_blocks
   public_subnets = var.public_subnets_cidr_blocks
@@ -28,8 +28,8 @@ module "jenkins-server-vpc" {
   
 
 }
-resource "aws_security_group" "jenkins-server-sg" {
-  vpc_id      = module.jenkins-server-vpc.default_vpc_id
+resource "aws_security_group" "eks-sg" {
+  vpc_id      = module.eks-vpc.default_vpc_id
   description = "Allowing Jenkins, Sonarqube, SSH Access"
 
   ingress = [
