@@ -1,0 +1,2 @@
+instance_ip = "3.82.12.149"
+vpc_id = "vpc-020d4b507eb4c6b5c"
