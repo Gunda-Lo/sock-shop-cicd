@@ -29,7 +29,7 @@ module "eks-vpc" {
 
 }
 resource "aws_security_group" "eks-sg" {
-  vpc_id      = module.eks-vpc.id
+  vpc_id      = module.eks-vpc.default_vpc_id
   description = "Allowing Jenkins, Sonarqube, SSH Access"
 
   ingress = [
