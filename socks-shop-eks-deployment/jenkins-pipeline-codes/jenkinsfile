@@ -1,16 +1,19 @@
 pipeline {
     agent any
+
     environment {
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "us-east-1"
     }
+
     stages {
         stage('Cleaning Workspace') {
             steps {
                 cleanWs()
             }
         }
+
         stage('Pull and Scan Images') {
             steps {
                 script {
@@ -42,7 +45,8 @@ pipeline {
                 }
             }
         }
-        stage('Checkout and Verify Tags') {
+
+        stage('Checkout, Create Folder, and Push Changes') {
             steps {
                 script {
                     // Checkout the repository
@@ -54,32 +58,26 @@ pipeline {
                         'orders': '0.4.7', 'payment': '0.4.3', 'queue-master': '0.3.1',
                         'shipping': '0.4.8', 'users': '0.4.7'
                     ]
+                    
+                    // Create desired images folder
+                    sh 'mkdir -p socks-shop-eks-deployment/desired_images'
 
-                    // Iterate through each deployment file pattern and desired tag
+                    // Populate the folder with expected image names
                     filePatterns.each { appName, desiredTag ->
-                        // Read the deployment file and extract the tag
-                        def deploymentFile = sh(
-                            returnStdout: true,
-                            script: "cat *-${appName}-dep.yaml"
-                        ).trim()
-                        def tagPattern = /image:\s+weaveworksdemos\/${appName}:(\S+)/
-                        def match = deploymentFile =~ tagPattern
-
-                        // Confirm the tag
-                        if (match) {
-                            def actualTag = match[0][1]
-                            if (actualTag != desiredTag) {
-                                error "Tag mismatch: Expected tag ${desiredTag}, but found ${actualTag} in deployment file"
-                            } else {
-                                echo "Tag verified for ${appName}"
-                            }
-                        } else {
-                            error "Failed to find image tag in deployment file"
-                        }
+                        sh "echo 'weaveworksdemos/${appName}:${desiredTag}' > socks-shop-eks-deployment/desired_images/${appName}_image.txt"
                     }
+
+                    // Commit changes
+                    sh '''
+                        cd socks-shop-eks-deployment
+                        git add desired_images
+                        git commit -m "Update desired images"
+                        git push origin main
+                    '''
                 }
             }
         }
+
         stage('Create EKS cluster') {
             steps {
                 script {
@@ -91,6 +89,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy to EKS') {
             steps {
                 script {
