@@ -59,30 +59,25 @@ pipeline {
                     sh 'mkdir -p socks-shop-eks-deployment/desired_images'
 
                     // Populate the folder with expected image names
+                    def filePatterns = [
+                        'carts': '0.4.8', 'catalogue': '0.3.5', 'front-end': '0.3.12',
+                        'orders': '0.4.7', 'payment': '0.4.3', 'queue-master': '0.3.1',
+                        'shipping': '0.4.8', 'users': '0.4.7'
+                    ]
                     filePatterns.each { appName, desiredTag ->
                         sh "echo 'weaveworksdemos/${appName}:${desiredTag}' > socks-shop-eks-deployment/desired_images/${appName}_image.txt"
                     }
 
-                    // Commit and push changes
-                    sh '''
-                        cd socks-shop-eks-deployment
-                        git config user.email "segeboi@gmail.com"
-                        git config user.name "Gunda-Lo"
-                        git add desired_images
-                        git commit -m "Update desired images"
-                        git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
-                    '''
-                }
-            }
-        }
-
-        stage('Create EKS cluster') {
-            steps {
-                script {
                     // Change into the terraform directory and run commands
-                    dir ('../terraform') {
-                        sh "terraform init"
-                        sh "terraform apply --auto-approve"
+                    dir ('socks-shop-eks-deployment/terraform') {
+                        sh """
+                            terraform init
+                            terraform apply --auto-approve \
+                            -var='private_subnets_cidr_blocks=[\"100.0.1.0/24\", \"100.0.2.0/24\", \"100.0.3.0/24\"]' \
+                            -var='public_subnets_cidr_blocks=[\"100.0.101.0/24\", \"100.0.102.0/24\", \"100.0.103.0/24\"]' \
+                            -var='vpc_cidr_block=\"100.0.0.0/16\"' \
+                            -var='cluster_name=\"sock-shop-eks-cluster\"'
+                        """
                     }
                 }
             }

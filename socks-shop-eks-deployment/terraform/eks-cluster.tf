@@ -8,7 +8,7 @@ module "eks" {
   cluster_endpoint_public_access  = true
 
 
-  vpc_id                   = module.jenkins-server-vpc
+  vpc_id                   = "vpc-06a057e557b4a6f9f"
   subnet_ids               = module.jenkins-server-vpc.private_subnets
  
 
