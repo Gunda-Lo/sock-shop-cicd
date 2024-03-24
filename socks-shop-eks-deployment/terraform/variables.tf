@@ -1,5 +1,3 @@
-
-Copy code
 variable "private_subnets_cidr_blocks" {
   type    = list(string)
   default = ["100.0.1.0/24", "100.0.2.0/24", "100.0.3.0/24"]
