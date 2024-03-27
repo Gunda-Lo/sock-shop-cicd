@@ -7,10 +7,11 @@ module "eks" {
 
   cluster_endpoint_public_access  = true
 
-  vpc_id                   = module.eks-vpc.default_vpc_id
-  subnet_ids               = module.eks-vpc.private_subnets
-
-
+ vpc_id     = var.existing_vpc_id  # Use the existing VPC ID
+  subnet_ids = [
+    module.eks-vpc.private_subnet.id,  # Reference the ID of the private subnet created above
+    module.eks-vpc.public_subnet.id,   # Reference the ID of the public subnet created above
+  ]
 
   eks_managed_node_groups = {
     one= {
@@ -21,6 +22,9 @@ module "eks" {
       min_size     = 1
       max_size     = 4
       desired_size = 2
+      security_groups = [
+        var.existing_sg_id,  # Specify the existing security group ID
+      ]
     }
 
     two= {
@@ -31,6 +35,9 @@ module "eks" {
       min_size     = 1
       max_size     = 4
       desired_size = 2
+      security_groups = [
+        var.existing_sg_id,  # Specify the existing security group ID
+      ]
     }
   }
 }

@@ -23,3 +23,15 @@ variable "region" {
   type        = string
   default     = "us-east-1"
 }
+
+variable "existing_vpc_id" {
+  description = "References an exiting vpc"
+  type = string
+  default = "vpc-0fad049bc7ad8dcb3"
+  }
+
+  variable "existing_sg_id" {
+    description = "Refrences an existing security group"
+    type = string
+    default = "sg-00b0f65a870b3891c"
+  }
