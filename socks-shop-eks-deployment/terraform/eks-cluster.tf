@@ -9,8 +9,8 @@ module "eks" {
 
  vpc_id     = var.existing_vpc_id  # Use the existing VPC ID
   subnet_ids = [
-    module.eks-vpc.private_subnet.id,  # Reference the ID of the private subnet created above
-    module.eks-vpc.public_subnet.id,   # Reference the ID of the public subnet created above
+    module.eks-vpc.private_subnets.id,  # Reference the ID of the private subnet created above
+    module.eks-vpc.public_subnets.id,   # Reference the ID of the public subnet created above
   ]
 
   eks_managed_node_groups = {
