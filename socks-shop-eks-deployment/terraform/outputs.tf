@@ -20,10 +20,10 @@ output "cluster_security_group_id" {
 
 output "private_subnets_id" {
   description = "Eks cluster private subnets id"
-  value = module.eks-vpc.private_subnets.id
+  value = module.eks-vpc.private_subnets[0]
  }
 
  output "public_subnets_id" {
   description = "Eks cluster prpublicivate subnets id"
-  value = module.eks-vpc.public_subnets.id
+  value = module.eks-vpc.public_subnets[0]
  }
