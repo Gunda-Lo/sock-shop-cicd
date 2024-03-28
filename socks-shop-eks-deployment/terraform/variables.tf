@@ -27,11 +27,11 @@ variable "region" {
 variable "existing_vpc_id" {
   description = "References an exiting vpc"
   type = string
-  default = "vpc-0fad049bc7ad8dcb3"
+  default = "vpc-0939c4e059375b1bd"
   }
 
   variable "existing_sg_id" {
     description = "Refrences an existing security group"
     type = string
-    default = "sg-00b0f65a870b3891c"
+    default = "sg-0483ba65a162268a3"
   }
