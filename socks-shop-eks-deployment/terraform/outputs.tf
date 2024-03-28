@@ -23,7 +23,7 @@ output "private_subnets_id" {
   value = module.eks-vpc.private_subnets_id
  }
 
- output "private_subnets_id" {
+ output "public_subnets_id" {
   description = "Eks cluster prpublicivate subnets id"
   value = module.eks-vpc.public_subnets_id
  }
